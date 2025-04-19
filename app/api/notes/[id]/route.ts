@@ -3,9 +3,9 @@ import Note from "@/models/note";
 import { NextResponse } from "next/server";
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function GET(request: Request, { params }: Params) {
