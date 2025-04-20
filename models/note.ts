@@ -1,5 +1,5 @@
-import { INote } from "@/types";
 import mongoose, { Schema, Document } from "mongoose";
+import { INote } from "@/types";
 
 interface NoteDocument extends Omit<INote, "_id">, Document {}
 
@@ -13,6 +13,11 @@ const NoteSchema = new Schema<NoteDocument>({
     type: String,
     required: true,
   },
+  userId: {
+    // Add userId field
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -23,6 +28,5 @@ const NoteSchema = new Schema<NoteDocument>({
   },
 });
 
-// Check if the model exists before creating it to prevent overwriting
 export default mongoose.models.Note ||
   mongoose.model<NoteDocument>("Note", NoteSchema);

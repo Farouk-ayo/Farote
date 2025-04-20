@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import NoteForm from "@/components/NoteForm";
-import NoteCard from "@/components/NoteCard";
+import NoteForm from "../../../components/NoteForm";
+import NoteCard from "../../../components/NoteCard";
 import { INote } from "@/types";
-import { useAuth } from "./contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface ApiResponse<T> {
   success: boolean;
@@ -12,7 +12,7 @@ interface ApiResponse<T> {
   error?: string;
 }
 
-export default function Home() {
+export default function Dashboard() {
   const { user, signOut } = useAuth();
   const [notes, setNotes] = useState<INote[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -20,10 +20,8 @@ export default function Home() {
   const [editingNote, setEditingNote] = useState<INote | null>(null);
 
   useEffect(() => {
-    if (user) {
-      fetchNotes();
-    }
-  }, [user]);
+    fetchNotes();
+  }, []);
 
   const fetchNotes = async () => {
     try {
@@ -109,8 +107,7 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto relative">
-      {/* User profile section */}
+    <div className="max-w-4xl mx-auto">
       <div className="mb-8 flex justify-between items-center">
         <h1 className="text-2xl font-bold">My Notes</h1>
         {user && (
