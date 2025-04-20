@@ -5,9 +5,9 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/auth";
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function GET(request: Request, { params }: Params) {
@@ -21,7 +21,7 @@ export async function GET(request: Request, { params }: Params) {
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     await connectToDatabase();
     const note = await Note.findOne({ _id: id, userId: session.user.id });
 
@@ -52,7 +52,7 @@ export async function PUT(request: Request, { params }: Params) {
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     const { title, content } = await request.json();
 
     if (!title && !content) {
@@ -101,7 +101,7 @@ export async function DELETE(request: Request, { params }: Params) {
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
     await connectToDatabase();
     const deletedNote = await Note.findOneAndDelete({
       _id: id,
