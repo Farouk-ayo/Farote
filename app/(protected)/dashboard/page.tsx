@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import NoteForm from "../../../components/NoteForm";
-import NoteCard from "../../../components/NoteCard";
-import { INote } from "@/types";
+import NoteForm from "@/components/NoteForm";
+import NoteCard from "@/components/NoteCard";
+import { INote, NoteFormData } from "@/types";
 import { useAuth } from "../../contexts/AuthContext";
 
 interface ApiResponse<T> {
@@ -42,7 +42,7 @@ export default function Dashboard() {
     }
   };
 
-  const handleSaveNote = async (noteData: INote) => {
+  const handleSaveNote = async (noteData: NoteFormData) => {
     if (editingNote) {
       await updateNote(editingNote._id, noteData);
     } else {
@@ -50,7 +50,7 @@ export default function Dashboard() {
     }
   };
 
-  const createNote = async (noteData: INote) => {
+  const createNote = async (noteData: NoteFormData) => {
     const res = await fetch("/api/notes", {
       method: "POST",
       headers: {
@@ -67,7 +67,7 @@ export default function Dashboard() {
     setNotes([data, ...notes]);
   };
 
-  const updateNote = async (id: string, noteData: INote) => {
+  const updateNote = async (id: string, noteData: NoteFormData) => {
     const res = await fetch(`/api/notes/${id}`, {
       method: "PUT",
       headers: {

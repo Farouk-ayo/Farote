@@ -20,6 +20,11 @@ export interface IUser {
   updatedAt: Date;
 }
 
+export interface NoteFormData {
+  title: string;
+  content: string;
+}
+
 export interface UserFormData {
   name: string;
   email: string;
