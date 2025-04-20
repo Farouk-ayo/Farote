@@ -1,13 +1,38 @@
-// app/api/notes/route.ts
 import connectToDatabase from "@/lib/mongodb";
 import Note from "@/models/note";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]/auth";
 
-export async function GET() {
+interface Params {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+export async function GET(request: Request, { params }: Params) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const { id } = await params;
     await connectToDatabase();
-    const notes = await Note.find().sort({ updatedAt: -1 });
-    return NextResponse.json({ success: true, data: notes });
+    const note = await Note.findOne({ _id: id, userId: session.user.id });
+
+    if (!note) {
+      return NextResponse.json(
+        { success: false, error: "Note not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, data: note });
   } catch (error) {
     return NextResponse.json(
       { success: false, error: (error as Error).message },
@@ -16,20 +41,81 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function PUT(request: Request, { params }: Params) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const { id } = await params;
     const { title, content } = await request.json();
 
-    if (!title || !content) {
+    if (!title && !content) {
       return NextResponse.json(
-        { success: false, error: "Title and content are required" },
+        { success: false, error: "Please provide title or content to update" },
         { status: 400 }
       );
     }
 
     await connectToDatabase();
-    const note = await Note.create({ title, content });
-    return NextResponse.json({ success: true, data: note }, { status: 201 });
+
+    const updatedNote = await Note.findOneAndUpdate(
+      { _id: id, userId: session.user.id },
+      {
+        ...(title && { title }),
+        ...(content && { content }),
+        updatedAt: Date.now(),
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedNote) {
+      return NextResponse.json(
+        { success: false, error: "Note not found or unauthorized" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, data: updatedNote });
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: (error as Error).message },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: Request, { params }: Params) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const { id } = await params;
+    await connectToDatabase();
+    const deletedNote = await Note.findOneAndDelete({
+      _id: id,
+      userId: session.user.id,
+    });
+
+    if (!deletedNote) {
+      return NextResponse.json(
+        { success: false, error: "Note not found or unauthorized" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, data: {} });
   } catch (error) {
     return NextResponse.json(
       { success: false, error: (error as Error).message },
