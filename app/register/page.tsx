@@ -40,6 +40,7 @@ export default function Register() {
         setError(result.error);
       }
     } catch (err) {
+      console.error("Error during registration:", err);
       setError("Registration failed. Please try again.");
     } finally {
       setIsLoading(false);
