@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
   // Get the token from the request
   const token = await getToken({
     req: request,
-    secret: process.env.NEXTAUTH_SCERET,
+    secret: process.env.NEXTAUTH_SECRET,
   });
 
   // If user is not authenticated and the path is not public, redirect to login

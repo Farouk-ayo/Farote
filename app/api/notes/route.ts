@@ -2,7 +2,7 @@ import connectToDatabase from "@/lib/mongodb";
 import Note from "@/models/note";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "../auth/[...nextauth]/auth";
 
 interface Params {
   params: {
