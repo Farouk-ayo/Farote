@@ -3,6 +3,8 @@
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { useAuth } from "../contexts/AuthContext";
+import Button from "@/components/Button";
+import InputPasswordField from "@/components/InputPasswordField";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -36,11 +38,13 @@ export default function Login() {
 
   return (
     <div className="max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">Sign In</h1>
-
+      <h2 className="text-2xl font-bold text-center mb-4">Sign In</h2>
+      <p className="text-center text-gray-600 mb-6">
+        Welcome back! Please enter your credentials to access your account.
+      </p>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-md"
+        className="bg-white p-6 rounded-lg shadow-md border border-primary/40"
       >
         {error && (
           <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">
@@ -60,44 +64,36 @@ export default function Login() {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             placeholder="Enter your email"
             required
           />
         </div>
 
         <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
+          <InputPasswordField
+            label="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={setPassword}
             placeholder="Enter your password"
-            required
+            error={!password && error ? "Password is required" : ""}
           />
         </div>
 
         <div>
-          <button
+          <Button
             type="submit"
-            disabled={isLoading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-blue-400"
+            isLoading={isLoading}
+            className="bg-tertiary focus:ring-primary/30"
           >
-            {isLoading ? "Signing in..." : "Sign In"}
-          </button>
+            Sign In
+          </Button>
         </div>
       </form>
 
       <p className="mt-4 text-center text-gray-600">
         Don't have an account?{" "}
-        <Link href="/register" className="text-blue-600 hover:underline">
+        <Link href="/register" className="text-primary hover:underline">
           Sign up
         </Link>
       </p>
