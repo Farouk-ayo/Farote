@@ -1,16 +1,15 @@
 // app/components/Header.tsx
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useAuth } from '../contexts/AuthContext';
-import { usePathname } from 'next/navigation';
+import { useAuth } from "@/app/contexts/AuthContext";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const { user, signOut, loading } = useAuth();
   const pathname = usePathname();
-  
+
   // Don't show header on login/register pages
-  if (pathname === '/login' || pathname === '/register') {
+  if (pathname === "/login" || pathname === "/register") {
     return null;
   }
 
@@ -21,7 +20,7 @@ export default function Header() {
           <h1 className="text-2xl font-bold">NoteTaker</h1>
           <p className="text-blue-100">Keep your thoughts organized</p>
         </div>
-        
+
         {!loading && user && (
           <div className="flex items-center space-x-4">
             <span className="text-blue-100 hidden md:inline">
@@ -29,7 +28,7 @@ export default function Header() {
             </span>
             <button
               onClick={() => signOut()}
-              className="bg-blue-700 hover:bg-blue-800 text-white text-sm py-1 px-3 rounded"
+              className="bg-secondary hover:bg-secondary/80  text-white text-sm py-1 px-3 rounded"
             >
               Sign Out
             </button>

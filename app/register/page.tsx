@@ -3,6 +3,8 @@
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { useAuth } from "../contexts/AuthContext";
+import Button from "@/components/Button";
+import InputPasswordField from "@/components/InputPasswordField";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -53,7 +55,7 @@ export default function Register() {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-md"
+        className="bg-white p-6 rounded-lg shadow-md border border-primary/40"
       >
         {error && (
           <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">
@@ -73,7 +75,7 @@ export default function Register() {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             placeholder="Enter your name"
             required
           />
@@ -91,63 +93,44 @@ export default function Register() {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             placeholder="Enter your email"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
+          <InputPasswordField
+            label="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={setPassword}
             placeholder="Create a password"
-            required
-            minLength={6}
           />
         </div>
 
         <div className="mb-6">
-          <label
-            htmlFor="confirmPassword"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            id="confirmPassword"
+          <InputPasswordField
+            label="Confirm Password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={setConfirmPassword}
             placeholder="Confirm your password"
-            required
           />
         </div>
 
         <div>
-          <button
+          <Button
             type="submit"
-            disabled={isLoading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-blue-400"
+            isLoading={isLoading}
+            className="bg-tertiary focus:ring-primary/30"
           >
-            {isLoading ? "Creating account..." : "Sign Up"}
-          </button>
+            Sign Up
+          </Button>
         </div>
       </form>
 
       <p className="mt-4 text-center text-gray-600">
         Already have an account?{" "}
-        <Link href="/login" className="text-blue-600 hover:underline">
+        <Link href="/login" className="text-primary hover:underline">
           Sign in
         </Link>
       </p>
