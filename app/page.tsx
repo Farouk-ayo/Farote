@@ -5,6 +5,7 @@ import NoteForm from "@/components/NoteForm";
 import NoteCard from "@/components/NoteCard";
 import { INote, NoteFormData } from "@/types";
 import { useAuth } from "./contexts/AuthContext";
+import { useToast } from "@/lib/useToast";
 
 interface ApiResponse<T> {
   success: boolean;
@@ -18,6 +19,8 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [editingNote, setEditingNote] = useState<INote | null>(null);
+  const [signingOut, setSigningOut] = useState<boolean>(false);
+  const { notifySuccess, notifyError, notifyInfo } = useToast();
 
   useEffect(() => {
     if (user) {
@@ -62,9 +65,11 @@ export default function Home() {
     });
 
     if (!res.ok) {
+      notifyError("Failed to create note");
       throw new Error("Failed to create note");
     }
 
+    notifySuccess("Note created successfully");
     const { data }: ApiResponse<INote> = await res.json();
     setNotes([data, ...notes]);
   };
@@ -79,8 +84,10 @@ export default function Home() {
     });
 
     if (!res.ok) {
+      notifyError("Failed to update note");
       throw new Error("Failed to update note");
     }
+    notifySuccess("Note updated successfully");
 
     const { data }: ApiResponse<INote> = await res.json();
     setNotes(notes.map((note) => (note._id === id ? data : note)));
@@ -93,19 +100,33 @@ export default function Home() {
     });
 
     if (!res.ok) {
+      notifyError("Failed to delete note");
       throw new Error("Failed to delete note");
     }
-
+    notifySuccess("Note deleted successfully");
     setNotes(notes.filter((note) => note._id !== id));
   };
 
   const handleEditNote = (note: INote) => {
+    notifyInfo("You can edit your note now");
     setEditingNote(note);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleCancelEdit = () => {
     setEditingNote(null);
+  };
+
+  const handleSignOut = async () => {
+    setSigningOut(true);
+    try {
+      await signOut();
+      notifySuccess("Signed out successfully.");
+    } catch (error) {
+      notifyError("Failed to sign out.");
+    } finally {
+      setSigningOut(false);
+    }
   };
 
   return (
@@ -117,10 +138,11 @@ export default function Home() {
           <div className="flex items-center space-x-4">
             <span className="text-gray-600">Welcome, {user.name}</span>
             <button
-              onClick={() => signOut()}
-              className="hover:bg-tertiary/80 text-gray-800 text-sm py-1 px-3 rounded bg-tertiary"
+              onClick={handleSignOut}
+              disabled={signingOut}
+              className="hover:bg-tertiary/80 text-gray-800 text-sm py-1 px-3 rounded bg-tertiary disabled:opacity-50"
             >
-              Sign Out
+              {signingOut ? "Signing Out..." : "Sign Out"}
             </button>
           </div>
         )}
@@ -142,17 +164,17 @@ export default function Home() {
 
         {loading ? (
           <div className="flex justify-center items-center space-x-2">
-            <span className="relative w-6 h-6">
-              <span className="absolute w-full h-full rounded-full border-2 border-blue-500 opacity-50 animate-ping" />
-              <span className="absolute w-full h-full rounded-full border-2 border-blue-500" />
+            <span className="relative w-4 h-4">
+              <span className="absolute w-full h-full rounded-full border-2 border-primary opacity-50 animate-ping" />
+              <span className="absolute w-full h-full rounded-full border-2 border-primary" />
             </span>
             <p className="text-gray-600">Loading notes...</p>
           </div>
         ) : error ? (
           <div className="bg-red-50 text-red-700 p-4 rounded-md">{error}</div>
         ) : notes.length === 0 ? (
-          <div className="bg-gray-50 p-8 text-center rounded-lg">
-            <p className="text-gray-600">
+          <div className=" p-8 text-center rounded-lg">
+            <p className="text-black">
               You don't have any notes yet. Create one above!
             </p>
           </div>
