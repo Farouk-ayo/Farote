@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useAuth } from "../contexts/AuthContext";
 import Button from "@/components/Button";
 import InputPasswordField from "@/components/InputPasswordField";
+import { InputField } from "@/components/InputField";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -59,12 +60,11 @@ export default function Login() {
           >
             Email
           </label>
-          <input
-            type="email"
+          <InputField
             id="email"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             placeholder="Enter your email"
             required
           />

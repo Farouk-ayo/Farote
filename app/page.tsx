@@ -118,7 +118,7 @@ export default function Home() {
             <span className="text-gray-600">Welcome, {user.name}</span>
             <button
               onClick={() => signOut()}
-              className="bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded"
+              className="hover:bg-tertiary/80 text-gray-800 text-sm py-1 px-3 rounded bg-tertiary"
             >
               Sign Out
             </button>
@@ -127,7 +127,7 @@ export default function Home() {
       </div>
 
       <div className="mb-8">
-        <h2 className="text-xl font-bold mb-4">
+        <h2 className="text-xl font-bold mb-4 ">
           {editingNote ? "Edit Note" : "Create a New Note"}
         </h2>
         <NoteForm
@@ -141,9 +141,12 @@ export default function Home() {
         <h2 className="text-xl font-bold mb-4">Your Notes</h2>
 
         {loading ? (
-          <div className="text-center py-8">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"></div>
-            <p className="mt-2 text-gray-600">Loading notes...</p>
+          <div className="flex justify-center items-center space-x-2">
+            <span className="relative w-6 h-6">
+              <span className="absolute w-full h-full rounded-full border-2 border-blue-500 opacity-50 animate-ping" />
+              <span className="absolute w-full h-full rounded-full border-2 border-blue-500" />
+            </span>
+            <p className="text-gray-600">Loading notes...</p>
           </div>
         ) : error ? (
           <div className="bg-red-50 text-red-700 p-4 rounded-md">{error}</div>

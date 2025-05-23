@@ -6,8 +6,8 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NoteTaker App",
-  description: "A simple application to take and manage notes",
+  title: "Farote",
+  description: "NoteTaker App: A simple application to take and manage notes",
 };
 
 export default function RootLayout({
