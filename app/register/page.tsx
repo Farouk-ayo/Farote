@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useAuth } from "../contexts/AuthContext";
 import Button from "@/components/Button";
 import InputPasswordField from "@/components/InputPasswordField";
+import { InputField } from "@/components/InputField";
+import { useToast } from "@/lib/useToast";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -14,6 +16,7 @@ export default function Register() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { signUp } = useAuth();
+  const { notifySuccess, notifyError } = useToast();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -39,11 +42,13 @@ export default function Register() {
     try {
       const result = await signUp(name, email, password);
       if (result.error) {
-        setError(result.error);
+        notifyError(result.error);
+      } else {
+        notifySuccess("Account created successfully!");
       }
     } catch (err) {
       console.error("Error during registration:", err);
-      setError("Registration failed. Please try again.");
+      notifyError("Registration failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -70,12 +75,12 @@ export default function Register() {
           >
             Name
           </label>
-          <input
-            type="text"
+
+          <InputField
             id="name"
+            type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             placeholder="Enter your name"
             required
           />
@@ -88,12 +93,11 @@ export default function Register() {
           >
             Email
           </label>
-          <input
-            type="email"
+          <InputField
             id="email"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             placeholder="Enter your email"
             required
           />

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useAuth } from "../contexts/AuthContext";
 import Button from "@/components/Button";
 import InputPasswordField from "@/components/InputPasswordField";
+import { InputField } from "@/components/InputField";
+import { useToast } from "@/lib/useToast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,6 +14,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { signIn } = useAuth();
+  const { notifySuccess, notifyError } = useToast();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -27,10 +30,12 @@ export default function Login() {
     try {
       const result = await signIn(email, password);
       if (result.error) {
-        setError(result.error);
+        notifyError(result.error);
+      } else {
+        notifySuccess("Logged in successfully!");
       }
     } catch (err) {
-      setError("Failed to sign in. Please try again.");
+      notifyError("Failed to sign in. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -59,12 +64,11 @@ export default function Login() {
           >
             Email
           </label>
-          <input
-            type="email"
+          <InputField
             id="email"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             placeholder="Enter your email"
             required
           />

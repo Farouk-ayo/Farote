@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { INote, NoteFormData } from "@/types";
+import { InputField } from "./InputField";
+import Button from "./Button";
 
 interface NoteFormProps {
   note?: INote;
@@ -14,6 +16,16 @@ export default function NoteForm({ note, onSave, onCancel }: NoteFormProps) {
   const [content, setContent] = useState(note?.content || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (note) {
+      setTitle(note.title);
+      setContent(note.content);
+    } else {
+      setTitle("");
+      setContent("");
+    }
+  }, [note]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,13 +72,12 @@ export default function NoteForm({ note, onSave, onCancel }: NoteFormProps) {
         >
           Title
         </label>
-        <input
-          type="text"
+        <InputField
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Note title"
+          required
         />
       </div>
 
@@ -82,7 +93,7 @@ export default function NoteForm({ note, onSave, onCancel }: NoteFormProps) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows={5}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
           placeholder="Write your note here..."
         />
       </div>
@@ -92,20 +103,20 @@ export default function NoteForm({ note, onSave, onCancel }: NoteFormProps) {
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none "
             disabled={isSubmitting}
           >
             Cancel
           </button>
         )}
 
-        <button
+        <Button
           type="submit"
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-tertiary w-max focus:ring-primary/30"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Saving..." : note ? "Update Note" : "Save Note"}
-        </button>
+        </Button>
       </div>
     </form>
   );

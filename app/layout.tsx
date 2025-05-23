@@ -2,12 +2,13 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 import { Providers } from "./providers";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NoteTaker App",
-  description: "A simple application to take and manage notes",
+  title: "Farote",
+  description: "NoteTaker App: A simple application to take and manage notes",
 };
 
 export default function RootLayout({
@@ -26,12 +27,13 @@ export default function RootLayout({
                 <p className="text-white">Keep your thoughts organized</p>
               </div>
             </header>
-            <main className=" container mx-auto py-8 px-4">{children}</main>
-            <footer className=" py-4 text-center text-gray-600 text-sm">
+            <main className=" container mx-auto py-8 px-4 ">{children}</main>
+            <footer className=" py-4 text-center text-gray-600 text-sm fixed bottom-0 w-full  shadow-md bg-quaternary">
               <p>© {new Date().getFullYear()} NoteTaker App</p>
             </footer>
           </div>
         </Providers>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );
