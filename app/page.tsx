@@ -135,7 +135,7 @@ export default function Home() {
       <div className="mb-8 flex justify-between items-center">
         <h1 className="text-2xl font-bold">My Notes</h1>
         {user && (
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-col md:flex-row items-end gap-1 md:gap-0 md:items-center space-x-4">
             <span className="text-gray-600">Welcome, {user.name}</span>
             <button
               onClick={handleSignOut}
