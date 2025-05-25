@@ -1,29 +1,27 @@
 {
-  "name": "Farote",
-  "short_name": "Farote",
+  "theme_color": "#ffac38",
+  "background_color": "#ffbd2e",
   "icons": [
     {
-      "src": "/favicon.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/favicon.png",
-      "sizes": "384x384",
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "icon512_maskable.png",
       "type": "image/png"
     },
     {
-      "src": "/favicon.png",
+      "purpose": "any",
       "sizes": "512x512",
+      "src": "icon512_rounded.png",
       "type": "image/png"
     }
   ],
-  "theme_color": "#FFFFFF",
-  "background_color": "#FFFFFF",
-  "start_url": "/",
+  "orientation": "any",
   "display": "standalone",
-  "description": "Farote is a note taking app that allows you to create, edit, and manage your notes efficiently.",
-
-  "orientation": "portrait"
+  "dir": "auto",
+  "lang": "en-US",
+  "name": "Farote",
+  "short_name": "Farote",
+  "start_url": "https://farote.vercel.app/",
+  "scope": "https://farote.vercel.app/",
+  "description": "Farote is a note taking app that allows you to create, edit, and manage your notes efficiently."
 }

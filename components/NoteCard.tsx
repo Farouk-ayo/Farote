@@ -50,8 +50,8 @@ export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
 
             <Dialog.Portal>
               <Dialog.Overlay className="fixed inset-0 bg-black/50 animate-in fade-in-0" />
-              <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white shadow-xl animate-in fade-in-0 zoom-in-95">
-                <div className="p-6">
+              <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[95vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white shadow-xl animate-in fade-in-0 zoom-in-95 sm:w-full">
+                <div className="p-4 sm:p-6">
                   <Dialog.Title className="text-lg font-medium text-gray-900">
                     Confirm Delete
                   </Dialog.Title>
@@ -61,7 +61,7 @@ export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
                     undone.
                   </p>
                 </div>
-                <div className="flex justify-end gap-3 p-6 border-t bg-gray-50">
+                <div className="flex flex-col  sm:flex-row justify-end gap-3 p-6 border-t bg-gray-50">
                   <Dialog.Close asChild>
                     <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none transition-colors">
                       Cancel
@@ -96,7 +96,7 @@ export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
 
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 bg-black/50 animate-in fade-in-0" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-2xl max-h-[85vh] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white shadow-xl animate-in fade-in-0 zoom-in-95">
+          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-[90%] md:max-w-2xl max-h-[80%] md:max-h-[85vh] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white shadow-xl animate-in fade-in-0 zoom-in-95">
             <div className="flex items-center justify-between p-6 border-b">
               <Dialog.Title className="text-xl font-semibold text-gray-900">
                 {note.title}
