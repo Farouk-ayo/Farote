@@ -21,7 +21,7 @@
   "lang": "en-US",
   "name": "Farote",
   "short_name": "Farote",
-  "start_url": "https://farote.vercel.app/",
-  "scope": "https://farote.vercel.app/",
+  "start_url": "/",
+  "scope": "/",
   "description": "Farote is a note taking app that allows you to create, edit, and manage your notes efficiently."
 }
