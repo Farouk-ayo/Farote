@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     await nextAuthSignOut({ redirect: false });
-    router.push("/login");
+    router.push("/");
   };
 
   return (

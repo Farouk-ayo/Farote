@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
+import SignOutButton from "@/components/SignoutButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,12 +43,14 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <div className="min-h-screen">
-            <header className="bg-primary text-quaternary p-4 shadow-md">
+            <header className="bg-primary text-quaternary p-4 shadow-md flex justify-between items-center">
               <div className="container mx-auto">
                 <h1 className="text-2xl font-bold font-dynapuff">Farote</h1>
                 <p className="text-white">Keep your thoughts organized</p>
               </div>
+              <SignOutButton />
             </header>
+
             <main className=" container mx-auto py-8 px-4 my-8 ">
               {children}
             </main>
