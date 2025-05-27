@@ -127,7 +127,7 @@ export default function DashboardSection({
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Create Note Button - Only show when form is hidden and there are notes */}
       {!shouldShowForm && notes.length > 0 && (
         <div className="mb-6 flex justify-center">
@@ -189,7 +189,7 @@ export default function DashboardSection({
         ) : notes.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 transition-all duration-300">
+          <div className="grid gap-4 md:grid-cols-3 transition-all duration-300">
             {notes.map((note, index) => (
               <div
                 key={note._id}

@@ -89,8 +89,8 @@ export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
       {/* View Full Note Dialog */}
       <Dialog.Root>
         <Dialog.Trigger asChild>
-          <button className="text-sm text-blue-600 mt-2 flex items-center hover:text-blue-500 transition-colors">
-            <EyeOpenIcon className="w-4 h-4 mr-1" /> View Full
+          <button className="text-sm text-tertiary mt-2 flex items-center hover:text-tertiary/80 transition-colors">
+            <EyeOpenIcon className="w-4 h-4 mr-1" /> View Details
           </button>
         </Dialog.Trigger>
 
