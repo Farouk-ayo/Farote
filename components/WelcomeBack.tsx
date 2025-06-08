@@ -31,7 +31,7 @@ export default function WelcomeBack({
   };
 
   return (
-    <div className="max-w-4xl mx-auto">wsss
+    <div className="max-w-4xl mx-auto">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Welcome back, {capitalizeName(userName)}!
