@@ -65,7 +65,7 @@ export default function WelcomeBack({
               onClick={scrollToDashboard}
               className="bg-primary hover:bg-primary/90 text-white focus:ring-primary/30 text-lg px-8 py-3"
             >
-              Get Started - Create Your First Note
+              Get Started - Create Your First Note.
             </Button>
           )}
         </div>
