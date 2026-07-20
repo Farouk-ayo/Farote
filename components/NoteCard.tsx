@@ -54,8 +54,8 @@ export default function NoteCard({
         style={{ background: accent }}
       />
 
-      <div className="flex min-w-0 items-start justify-between gap-3 px-5 pt-5">
-        <h3 className="min-w-0 flex-1 font-display text-lg font-semibold leading-snug text-ink wrap-anywhere">
+      <div className="flex min-w-0 items-start justify-between gap-3 border-b border-line px-5 pb-3 pt-5">
+        <h3 className="min-w-0 flex-1 font-display text-lg font-bold leading-snug text-ink wrap-anywhere">
           {note.title}
         </h3>
 
@@ -86,8 +86,8 @@ export default function NoteCard({
             </Dialog.Trigger>
 
             <Dialog.Portal>
-              <Dialog.Overlay className="fixed inset-0 z-50 bg-primary/40 backdrop-blur-sm animate-in fade-in-0" />
-              <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-card shadow-(--shadow-pop) animate-in fade-in-0 zoom-in-95">
+              <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50 animate-in fade-in-0" />
+              <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-line bg-card shadow-(--shadow-pop) animate-in fade-in-0 zoom-in-95">
                 <div className="p-5 sm:p-6">
                   <Dialog.Title className="font-display text-lg font-semibold text-ink">
                     Delete this note?
@@ -119,7 +119,7 @@ export default function NoteCard({
       </div>
 
       {/* content — wrap-anywhere keeps long URLs from overflowing on mobile */}
-      <div className="mt-2 min-w-0 flex-1 px-5 text-base leading-relaxed text-ink whitespace-pre-wrap wrap-anywhere line-clamp-4">
+      <div className="mt-3 min-w-0 flex-1 px-5 text-base leading-relaxed text-ink-soft whitespace-pre-wrap wrap-anywhere line-clamp-4">
         {note.content}
       </div>
 
@@ -135,8 +135,8 @@ export default function NoteCard({
           </Dialog.Trigger>
 
           <Dialog.Portal>
-            <Dialog.Overlay className="fixed inset-0 z-50 bg-primary/40 backdrop-blur-sm animate-in fade-in-0" />
-            <Dialog.Content className="fixed left-1/2 top-1/2 z-50 flex max-h-[85dvh] w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl bg-card shadow-(--shadow-pop) animate-in fade-in-0 zoom-in-95">
+            <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50 animate-in fade-in-0" />
+            <Dialog.Content className="fixed left-1/2 top-1/2 z-50 flex max-h-[85dvh] w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl border border-line bg-card shadow-(--shadow-pop) animate-in fade-in-0 zoom-in-95">
               <span
                 aria-hidden
                 className="h-1 w-full shrink-0"
@@ -154,7 +154,7 @@ export default function NoteCard({
                 </Dialog.Close>
               </div>
               <div className="note-scroll min-h-0 flex-1 overflow-y-auto p-5 sm:p-6">
-                <div className="whitespace-pre-wrap wrap-anywhere text-base leading-relaxed text-ink">
+                <div className="whitespace-pre-wrap wrap-anywhere text-base leading-relaxed text-ink-soft">
                   {note.content}
                 </div>
               </div>

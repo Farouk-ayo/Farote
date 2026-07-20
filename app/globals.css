@@ -2,7 +2,7 @@
 
 :root {
   --paper: #fdf9f3;
-  --ink: #2e1c10;
+  --ink: #191210;
 }
 
 @theme {
@@ -17,15 +17,15 @@
 
   --color-paper: #fdf9f3;
   --color-card: #ffffff;
-  --color-ink: #2e1c10;
-  --color-ink-soft: #55402f;
-  --color-ink-faint: #86705f;
-  --color-line: #ecdfd4;
+  --color-ink: #191210;
+  --color-ink-soft: #4b433c;
+  --color-ink-faint: #7d7266;
+  --color-line: #e5d8ca;
 
-  --shadow-card: 0 1px 2px rgba(82, 28, 13, 0.05),
-    0 6px 16px -6px rgba(82, 28, 13, 0.12);
-  --shadow-card-hover: 0 2px 4px rgba(82, 28, 13, 0.06),
-    0 16px 32px -8px rgba(82, 28, 13, 0.18);
+  --shadow-card: 0 1px 2px rgba(82, 28, 13, 0.04),
+    0 4px 10px -6px rgba(82, 28, 13, 0.08);
+  --shadow-card-hover: 0 2px 4px rgba(82, 28, 13, 0.05),
+    0 12px 24px -10px rgba(82, 28, 13, 0.14);
   --shadow-pop: 0 24px 64px -16px rgba(82, 28, 13, 0.35);
 }
 
