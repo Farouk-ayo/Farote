@@ -1,11 +1,25 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
-import type { Metadata } from "next";
+import { Fraunces, Karla, DynaPuff } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
 import SignOutButton from "@/components/SignoutButton";
 
-const inter = Inter({ subsets: ["latin"] });
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  axes: ["SOFT", "WONK", "opsz"],
+});
+
+const karla = Karla({
+  subsets: ["latin"],
+  variable: "--font-karla",
+});
+
+const dynapuff = DynaPuff({
+  subsets: ["latin"],
+  variable: "--font-dynapuff",
+});
 
 export const metadata: Metadata = {
   title: "Farote",
@@ -24,13 +38,16 @@ export const metadata: Metadata = {
   ],
   creator: "Faroukayo",
   applicationName: "Farote",
-  themeColor: "#1e293b",
-  colorScheme: "dark light",
   authors: [{ name: "Faroukayo" }],
   icons: [
     { rel: "apple-touch-icon", url: "/favicon.png" },
     { rel: "icon", url: "/favicon.png" },
   ],
+};
+
+export const viewport: Viewport = {
+  themeColor: "#521c0d",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -40,22 +57,34 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={`${fraunces.variable} ${karla.variable} ${dynapuff.variable} font-body antialiased`}
+      >
         <Providers>
-          <div className="min-h-screen">
-            <header className="bg-primary text-quaternary p-4 shadow-md flex justify-between items-center">
-              <div className="container mx-auto">
-                <h1 className="text-2xl font-bold font-dynapuff">Farote</h1>
-                <p className="text-white">Keep your thoughts organized</p>
+          <div className="min-h-screen flex flex-col">
+            <header className="sticky top-0 z-40 border-b border-line/70 bg-paper/80 backdrop-blur-md">
+              <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-3">
+                <div className="flex items-baseline gap-3 min-w-0">
+                  <h1 className="font-dynapuff text-2xl text-primary leading-none">
+                    farote
+                    <span className="text-secondary">.</span>
+                  </h1>
+                  <p className="hidden sm:block text-sm text-ink-soft truncate">
+                    Keep your thoughts organized
+                  </p>
+                </div>
+                <SignOutButton />
               </div>
-              <SignOutButton />
             </header>
 
-            <main className=" container mx-auto py-8 px-4 my-8 ">
+            <main className="container mx-auto flex-1 px-4 py-8">
               {children}
             </main>
-            <footer className=" py-4 text-center text-gray-600 text-sm fixed bottom-0 w-full  shadow-md bg-quaternary">
-              <p>© {new Date().getFullYear()} NoteTaker App</p>
+
+            <footer className="border-t border-line/70 py-5 text-center text-sm text-ink-faint">
+              <p>
+                © {new Date().getFullYear()} farote — made with warm thoughts
+              </p>
             </footer>
           </div>
         </Providers>

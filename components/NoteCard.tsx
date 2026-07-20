@@ -3,17 +3,38 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { INote } from "@/types";
-import { EyeOpenIcon, Cross2Icon } from "@radix-ui/react-icons";
+import {
+  EyeOpenIcon,
+  Cross2Icon,
+  Pencil1Icon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 
 interface NoteCardProps {
   note: INote;
   onEdit: (note: INote) => void;
   onDelete: (id: string) => Promise<void>;
+  accentIndex?: number;
 }
 
-export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
+// warm accent strip colors, cycled per card position
+const ACCENTS = ["#ff9b45", "#d5451b", "#e8b04b", "#c97b63", "#a3b18a"];
+
+export default function NoteCard({
+  note,
+  onEdit,
+  onDelete,
+  accentIndex = 0,
+}: NoteCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const accent = ACCENTS[accentIndex % ACCENTS.length];
+
+  const wasUpdated =
+    new Date(note.updatedAt).getTime() !== new Date(note.createdAt).getTime();
+  const dateLabel = wasUpdated
+    ? `Updated ${format(new Date(note.updatedAt), "MMM d, yyyy · h:mm a")}`
+    : `Created ${format(new Date(note.createdAt), "MMM d, yyyy · h:mm a")}`;
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -25,16 +46,28 @@ export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow hover:shadow-md transition-shadow p-4 relative">
-      <div className="flex justify-between items-start">
-        <h3 className="text-lg font-semibold text-gray-800">{note.title}</h3>
-        <div className="flex space-x-2">
+    <article className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-line bg-card shadow-(--shadow-card) transition-all duration-300 hover:-translate-y-1 hover:shadow-(--shadow-card-hover)">
+      {/* accent strip */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-1"
+        style={{ background: accent }}
+      />
+
+      <div className="flex min-w-0 items-start justify-between gap-3 px-5 pt-5">
+        <h3 className="min-w-0 flex-1 font-display text-lg font-semibold leading-snug text-ink wrap-anywhere">
+          {note.title}
+        </h3>
+
+        <div className="flex shrink-0 items-center gap-1">
           <button
             onClick={() => onEdit(note)}
-            className="text-black hover:text-black/80 transition-colors"
             disabled={isDeleting}
+            title="Edit note"
+            className="rounded-lg p-2 text-ink-soft transition-colors hover:bg-tertiary/15 hover:text-primary disabled:opacity-40"
           >
-            Edit
+            <Pencil1Icon className="h-4 w-4" />
+            <span className="sr-only">Edit</span>
           </button>
 
           {/* Confirm Delete Dialog */}
@@ -42,37 +75,40 @@ export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
             <Dialog.Trigger asChild>
               <button
                 disabled={isDeleting}
-                className="text-red-500 hover:text-red-800 disabled:text-gray-400"
+                title="Delete note"
+                className="rounded-lg p-2 text-ink-soft transition-colors hover:bg-secondary/10 hover:text-secondary disabled:opacity-40"
               >
-                {isDeleting ? "Deleting..." : "Delete"}
+                <TrashIcon className="h-4 w-4" />
+                <span className="sr-only">
+                  {isDeleting ? "Deleting..." : "Delete"}
+                </span>
               </button>
             </Dialog.Trigger>
 
             <Dialog.Portal>
-              <Dialog.Overlay className="fixed inset-0 bg-black/50 animate-in fade-in-0" />
-              <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[95vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white shadow-xl animate-in fade-in-0 zoom-in-95 sm:w-full">
-                <div className="p-4 sm:p-6">
-                  <Dialog.Title className="text-lg font-medium text-gray-900">
-                    Confirm Delete
+              <Dialog.Overlay className="fixed inset-0 z-50 bg-primary/40 backdrop-blur-sm animate-in fade-in-0" />
+              <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-card shadow-(--shadow-pop) animate-in fade-in-0 zoom-in-95">
+                <div className="p-5 sm:p-6">
+                  <Dialog.Title className="font-display text-lg font-semibold text-ink">
+                    Delete this note?
                   </Dialog.Title>
-                  <p className="mt-2 text-sm text-gray-600">
-                    Are you sure you want to delete the note "
-                    <strong>{note.title}</strong>"? This action cannot be
-                    undone.
+                  <p className="mt-2 text-sm text-ink-soft wrap-anywhere">
+                    “<strong>{note.title}</strong>” will be gone for good. This
+                    action cannot be undone.
                   </p>
                 </div>
-                <div className="flex flex-col  sm:flex-row justify-end gap-3 p-6 border-t bg-gray-50">
+                <div className="flex flex-col-reverse gap-2 border-t border-line bg-paper/60 p-4 sm:flex-row sm:justify-end sm:gap-3">
                   <Dialog.Close asChild>
-                    <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none transition-colors">
-                      Cancel
+                    <button className="rounded-xl border border-line bg-card px-4 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-paper">
+                      Keep it
                     </button>
                   </Dialog.Close>
                   <Dialog.Close asChild>
                     <button
                       onClick={handleDelete}
-                      className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none transition-colors"
+                      className="rounded-xl bg-secondary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-secondary/85"
                     >
-                      {isDeleting ? "Deleting..." : "Delete"}
+                      {isDeleting ? "Deleting..." : "Yes, delete"}
                     </button>
                   </Dialog.Close>
                 </div>
@@ -82,68 +118,63 @@ export default function NoteCard({ note, onEdit, onDelete }: NoteCardProps) {
         </div>
       </div>
 
-      <div className="mt-2 text-gray-600 whitespace-pre-wrap line-clamp-4">
+      {/* content — wrap-anywhere keeps long URLs from overflowing on mobile */}
+      <div className="mt-2 min-w-0 flex-1 px-5 text-base leading-relaxed text-ink whitespace-pre-wrap wrap-anywhere line-clamp-4">
         {note.content}
       </div>
 
-      {/* View Full Note Dialog */}
-      <Dialog.Root>
-        <Dialog.Trigger asChild>
-          <button className="text-sm text-tertiary mt-2 flex items-center hover:text-tertiary/80 transition-colors">
-            <EyeOpenIcon className="w-4 h-4 mr-1" /> View Details
-          </button>
-        </Dialog.Trigger>
+      <div className="mt-4 flex min-w-0 items-center justify-between gap-2 border-t border-dashed border-line px-5 py-3">
+        <span className="truncate text-xs font-medium text-ink-soft">{dateLabel}</span>
 
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black/50 animate-in fade-in-0" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-[90%] md:max-w-2xl max-h-[80%] md:max-h-[85vh] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white shadow-xl animate-in fade-in-0 zoom-in-95">
-            <div className="flex items-center justify-between p-6 border-b">
-              <Dialog.Title className="text-xl font-semibold text-gray-900">
-                {note.title}
-              </Dialog.Title>
-              <Dialog.Close asChild>
-                <button className="rounded-sm opacity-70 hover:opacity-100 focus:outline-none  transition-opacity">
-                  <Cross2Icon className="h-5 w-5" />
-                  <span className="sr-only">Close</span>
-                </button>
-              </Dialog.Close>
-            </div>
-            <div className="p-6 overflow-y-auto max-h-[60vh]">
-              <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-                {note.content}
+        {/* View Full Note Dialog */}
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <button className="flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-secondary transition-colors hover:bg-secondary/10">
+              <EyeOpenIcon className="h-3.5 w-3.5" /> Open
+            </button>
+          </Dialog.Trigger>
+
+          <Dialog.Portal>
+            <Dialog.Overlay className="fixed inset-0 z-50 bg-primary/40 backdrop-blur-sm animate-in fade-in-0" />
+            <Dialog.Content className="fixed left-1/2 top-1/2 z-50 flex max-h-[85dvh] w-[calc(100vw-2rem)] max-w-2xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl bg-card shadow-(--shadow-pop) animate-in fade-in-0 zoom-in-95">
+              <span
+                aria-hidden
+                className="h-1 w-full shrink-0"
+                style={{ background: accent }}
+              />
+              <div className="flex items-start justify-between gap-4 border-b border-line p-5 sm:p-6">
+                <Dialog.Title className="min-w-0 font-display text-xl font-semibold text-ink wrap-anywhere">
+                  {note.title}
+                </Dialog.Title>
+                <Dialog.Close asChild>
+                  <button className="shrink-0 rounded-lg p-1.5 text-ink-soft transition-colors hover:bg-paper hover:text-ink">
+                    <Cross2Icon className="h-5 w-5" />
+                    <span className="sr-only">Close</span>
+                  </button>
+                </Dialog.Close>
               </div>
-            </div>
-            <div className="flex justify-end gap-3 p-6 border-t bg-gray-50">
-              <Dialog.Close asChild>
-                <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none  transition-colors">
-                  Cancel
-                </button>
-              </Dialog.Close>
-              <Dialog.Close asChild>
-                <button
-                  onClick={() => onEdit(note)}
-                  className="px-4 py-2 text-sm font-medium text-white bg-tertiary rounded-md hover:bg-tertiary/80 focus:outline-none  transition-colors"
-                >
-                  Edit Note
-                </button>
-              </Dialog.Close>
-            </div>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
-
-      <div className="mt-4 text-xs text-gray-500">
-        {new Date(note.updatedAt).getTime() !==
-        new Date(note.createdAt).getTime() ? (
-          <span>
-            Updated: {format(new Date(note.updatedAt), "MMM d, yyyy h:mm a")}
-          </span>
-        ) : (
-          <span>
-            Created: {format(new Date(note.createdAt), "MMM d, yyyy h:mm a")}
-          </span>
-        )}
+              <div className="note-scroll min-h-0 flex-1 overflow-y-auto p-5 sm:p-6">
+                <div className="whitespace-pre-wrap wrap-anywhere text-base leading-relaxed text-ink">
+                  {note.content}
+                </div>
+              </div>
+              <div className="flex items-center justify-between gap-3 border-t border-line bg-paper/60 p-4 sm:px-6">
+                <span className="truncate text-xs font-medium text-ink-soft">
+                  {dateLabel}
+                </span>
+                <Dialog.Close asChild>
+                  <button
+                    onClick={() => onEdit(note)}
+                    className="flex shrink-0 items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/85"
+                  >
+                    <Pencil1Icon className="h-4 w-4" /> Edit note
+                  </button>
+                </Dialog.Close>
+              </div>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
       </div>
-    </div>
+    </article>
   );
 }

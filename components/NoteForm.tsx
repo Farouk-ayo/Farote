@@ -55,12 +55,9 @@ export default function NoteForm({ note, onSave, onCancel }: NoteFormProps) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 p-4 bg-white rounded-lg shadow"
-    >
+    <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="p-3 bg-red-50 text-red-700 rounded-md text-sm">
+        <div className="rounded-xl border border-secondary/30 bg-secondary/5 p-3 text-sm text-secondary">
           {error}
         </div>
       )}
@@ -68,7 +65,7 @@ export default function NoteForm({ note, onSave, onCancel }: NoteFormProps) {
       <div>
         <label
           htmlFor="title"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="mb-1.5 block text-sm font-semibold text-ink"
         >
           Title
         </label>
@@ -84,7 +81,7 @@ export default function NoteForm({ note, onSave, onCancel }: NoteFormProps) {
       <div>
         <label
           htmlFor="content"
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="mb-1.5 block text-sm font-semibold text-ink"
         >
           Content
         </label>
@@ -93,17 +90,17 @@ export default function NoteForm({ note, onSave, onCancel }: NoteFormProps) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows={5}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full rounded-xl border border-line bg-paper/50 p-3 text-ink placeholder:text-ink-faint transition-shadow focus:border-tertiary focus:outline-none focus:ring-2 focus:ring-tertiary/30"
           placeholder="Write your note here..."
         />
       </div>
 
-      <div className="flex justify-end space-x-2">
+      <div className="flex justify-end gap-2">
         {onCancel && (
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none "
+            className="rounded-xl border border-line bg-card px-4 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-paper focus:outline-none"
             disabled={isSubmitting}
           >
             Cancel
@@ -112,7 +109,7 @@ export default function NoteForm({ note, onSave, onCancel }: NoteFormProps) {
 
         <Button
           type="submit"
-          className="bg-tertiary w-max focus:ring-primary/30"
+          className="w-max rounded-xl bg-primary px-5 hover:bg-primary/90 focus:ring-primary/30"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Saving..." : note ? "Update Note" : "Save Note"}

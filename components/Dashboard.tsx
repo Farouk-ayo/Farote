@@ -3,6 +3,7 @@ import NoteForm from "@/components/NoteForm";
 import NoteCard from "@/components/NoteCard";
 import { INote, NoteFormData } from "@/types";
 import { useToast } from "@/lib/useToast";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 interface ApiResponse<T> {
   success: boolean;
@@ -130,12 +131,13 @@ export default function DashboardSection({
     <div className="max-w-7xl mx-auto">
       {/* Create Note Button - Only show when form is hidden and there are notes */}
       {!shouldShowForm && notes.length > 0 && (
-        <div className="mb-6 flex justify-center">
+        <div className="mb-8 flex justify-center">
           <button
             onClick={handleCreateNewNote}
-            className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg"
+            data-create-note-trigger
+            className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-medium text-white shadow-(--shadow-card) transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-(--shadow-card-hover)"
           >
-            + Create New Note
+            <PlusIcon className="h-4 w-4" /> Create New Note
           </button>
         </div>
       )}
@@ -143,43 +145,51 @@ export default function DashboardSection({
       {/* Note Form Section - Animated */}
       <div
         id="note-form-section"
-        className={`mb-8 transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`mb-10 transition-all duration-300 ease-in-out overflow-hidden ${
           shouldShowForm
             ? "max-h-screen opacity-100 transform translate-y-0"
             : "max-h-0 opacity-0 transform -translate-y-4"
         }`}
       >
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold">
-              {editingNote ? "Edit Note" : "Create a New Note"}
-            </h3>
-            {notes.length > 0 && (
-              <button
-                onClick={() => {
-                  setShowNoteForm(false);
-                  setEditingNote(null);
-                }}
-                className="text-gray-500 hover:text-gray-700 text-sm px-3 py-1 rounded hover:bg-gray-100 transition-colors"
-              >
-                Cancel
-              </button>
-            )}
+        <div className="mx-auto max-w-2xl overflow-hidden rounded-2xl border border-line bg-card shadow-(--shadow-card)">
+          <div className="h-1 w-full bg-gradient-to-r from-tertiary via-secondary to-tertiary" />
+          <div className="p-5 sm:p-6">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h3 className="font-display text-xl font-semibold text-ink">
+                {editingNote ? "Edit Note" : "Create a New Note"}
+              </h3>
+              {notes.length > 0 && (
+                <button
+                  onClick={() => {
+                    setShowNoteForm(false);
+                    setEditingNote(null);
+                  }}
+                  className="rounded-lg px-3 py-1 text-sm text-ink-soft transition-colors hover:bg-paper hover:text-ink"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
+            <NoteForm
+              note={editingNote || undefined}
+              onSave={handleSaveNote}
+              onCancel={editingNote ? handleCancelEdit : undefined}
+            />
           </div>
-          <NoteForm
-            note={editingNote || undefined}
-            onSave={handleSaveNote}
-            onCancel={editingNote ? handleCancelEdit : undefined}
-          />
         </div>
       </div>
 
       {/* Notes List Section */}
       <div>
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold">
-            Your Notes {notes.length > 0 && `(${notes.length})`}
+        <div className="mb-5 flex items-baseline justify-between gap-3">
+          <h3 className="font-display text-2xl font-semibold text-ink">
+            Your Notes
           </h3>
+          {notes.length > 0 && (
+            <span className="rounded-full border border-line bg-card px-3 py-1 text-xs font-semibold text-ink-soft">
+              {notes.length} {notes.length === 1 ? "note" : "notes"}
+            </span>
+          )}
         </div>
 
         {loading ? (
@@ -189,17 +199,18 @@ export default function DashboardSection({
         ) : notes.length === 0 ? (
           <EmptyState />
         ) : (
-          <div className="grid gap-4 md:grid-cols-3 transition-all duration-300">
+          <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
             {notes.map((note, index) => (
               <div
                 key={note._id}
-                className="transform transition-all duration-200 hover:scale-[1.02]"
+                className="animate-rise min-w-0"
                 style={{
-                  animationDelay: `${index * 100}ms`,
+                  animationDelay: `${Math.min(index, 8) * 60}ms`,
                 }}
               >
                 <NoteCard
                   note={note}
+                  accentIndex={index}
                   onEdit={handleEditNote}
                   onDelete={handleDeleteNote}
                 />
@@ -216,17 +227,17 @@ export function LoadingSpinner() {
   return (
     <div className="flex justify-center items-center space-x-2 py-8">
       <span className="relative w-4 h-4">
-        <span className="absolute w-full h-full rounded-full border-2 border-primary opacity-50 animate-ping" />
-        <span className="absolute w-full h-full rounded-full border-2 border-primary" />
+        <span className="absolute w-full h-full rounded-full border-2 border-secondary opacity-50 animate-ping" />
+        <span className="absolute w-full h-full rounded-full border-2 border-secondary" />
       </span>
-      <p className="text-gray-600">Loading notes...</p>
+      <p className="text-ink-soft">Loading notes...</p>
     </div>
   );
 }
 
 export function ErrorMessage({ message }: { message: string }) {
   return (
-    <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg">
+    <div className="rounded-2xl border border-secondary/30 bg-secondary/5 p-4 text-secondary">
       <p className="font-medium">Error</p>
       <p className="text-sm">{message}</p>
     </div>
@@ -235,11 +246,11 @@ export function ErrorMessage({ message }: { message: string }) {
 
 export function EmptyState() {
   return (
-    <div className="text-center py-12 px-4">
+    <div className="rounded-2xl border border-dashed border-line bg-card/60 px-4 py-14 text-center">
       <div className="max-w-sm mx-auto">
-        <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-tertiary/15">
           <svg
-            className="w-8 h-8 text-gray-400"
+            className="h-8 w-8 text-secondary"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -252,8 +263,10 @@ export function EmptyState() {
             />
           </svg>
         </div>
-        <h3 className="text-lg font-medium text-gray-900 mb-2">No notes yet</h3>
-        <p className="text-gray-600 mb-4">
+        <h3 className="mb-2 font-display text-lg font-semibold text-ink">
+          No notes yet
+        </h3>
+        <p className="text-ink-soft">
           Get started by creating your first note above!
         </p>
       </div>

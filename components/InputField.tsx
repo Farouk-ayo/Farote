@@ -21,7 +21,7 @@ export const InputField = ({
       id={id}
       value={value}
       onChange={onChange}
-      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+      className="w-full rounded-xl border border-line bg-paper/50 p-3 text-ink placeholder:text-ink-faint transition-shadow focus:border-tertiary focus:outline-none focus:ring-2 focus:ring-tertiary/30"
       placeholder={placeholder}
       required={required}
     />

@@ -6,27 +6,31 @@ export default function LandingPage() {
   const router = useRouter();
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto animate-rise">
       {/* Hero Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-          Your Personal Note-Taking App
+      <div className="text-center mb-14">
+        <p className="mb-4 inline-block rounded-full border border-line bg-card px-4 py-1 text-xs font-semibold uppercase tracking-widest text-secondary">
+          Notes, the warm way
+        </p>
+        <h1 className="mb-6 font-display text-4xl font-semibold text-ink sm:text-6xl">
+          Your thoughts deserve a{" "}
+          <span className="italic text-secondary">cozy home</span>.
         </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        <p className="mx-auto mb-8 max-w-2xl text-xl text-ink-soft">
           Capture your thoughts, organize your ideas, and access them anywhere.
           Simple, secure, and always available.
         </p>
 
-        <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button
             onClick={() => router.push("/register")}
-            className="bg-primary hover:bg-primary/90 text-white focus:ring-primary/30"
+            className="w-full sm:w-auto rounded-full bg-primary px-7 text-white hover:bg-primary/90 focus:ring-primary/30"
           >
             Get Started Free
           </Button>
           <Button
             onClick={() => router.push("/login")}
-            className=" bg-tertiary hover:bg-tertiary/90 text-gray-700 focus:ring-tertiary/30"
+            className="w-full sm:w-auto rounded-full border border-line bg-card px-7 !text-primary hover:bg-tertiary/15 focus:ring-tertiary/30"
           >
             Sign In
           </Button>
@@ -34,11 +38,11 @@ export default function LandingPage() {
       </div>
 
       {/* Features Section */}
-      <div className="grid md:grid-cols-3 gap-8 mb-12">
+      <div className="mb-14 grid gap-5 md:grid-cols-3">
         <FeatureCard
           icon={
             <svg
-              className="w-6 h-6 text-blue-600"
+              className="w-6 h-6 text-secondary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -53,13 +57,13 @@ export default function LandingPage() {
           }
           title="Easy to Use"
           description="Simple and intuitive interface for quick note-taking"
-          bgColor="bg-blue-100"
+          bgColor="bg-secondary/10"
         />
 
         <FeatureCard
           icon={
             <svg
-              className="w-6 h-6 text-green-600"
+              className="w-6 h-6 text-primary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -74,13 +78,13 @@ export default function LandingPage() {
           }
           title="Secure"
           description="Your notes are encrypted and safely stored"
-          bgColor="bg-green-100"
+          bgColor="bg-primary/10"
         />
 
         <FeatureCard
           icon={
             <svg
-              className="w-6 h-6 text-purple-600"
+              className="w-6 h-6 text-tertiary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -95,22 +99,27 @@ export default function LandingPage() {
           }
           title="Anywhere Access"
           description="Access your notes from any device, anytime"
-          bgColor="bg-purple-100"
+          bgColor="bg-tertiary/15"
         />
       </div>
 
       {/* Call to Action */}
-      <div className="bg-gray-50 rounded-lg p-8 text-center">
-        <h2 className="text-2xl font-bold mb-4">Ready to get started?</h2>
-        <p className="text-gray-600 mb-6">
-          Join thousands of users who trust us with their notes
-        </p>
-        <Link
-          href="/register"
-          className="inline-block bg-tertiary text-white px-6 py-3 rounded-lg  transition-colors hover:bg-tertiary/80 focus:ring-2 focus:ring-tertiary/30 focus:outline-none"
-        >
-          Create Your Account
-        </Link>
+      <div className="overflow-hidden rounded-2xl border border-line bg-card text-center shadow-(--shadow-card)">
+        <div className="h-1 w-full bg-gradient-to-r from-tertiary via-secondary to-tertiary" />
+        <div className="p-8">
+          <h2 className="mb-3 font-display text-2xl font-semibold text-ink">
+            Ready to get started?
+          </h2>
+          <p className="mb-6 text-ink-soft">
+            Join thousands of users who trust us with their notes
+          </p>
+          <Link
+            href="/register"
+            className="inline-block rounded-full bg-secondary px-6 py-3 text-white transition-colors hover:bg-secondary/85 focus:outline-none focus:ring-2 focus:ring-secondary/30"
+          >
+            Create Your Account
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -125,14 +134,16 @@ interface FeatureCardProps {
 
 function FeatureCard({ icon, title, description, bgColor }: FeatureCardProps) {
   return (
-    <div className="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-200">
+    <div className="rounded-2xl border border-line bg-card p-6 text-center shadow-(--shadow-card) transition-all duration-300 hover:-translate-y-1 hover:shadow-(--shadow-card-hover)">
       <div
-        className={`w-12 h-12 ${bgColor} rounded-lg flex items-center justify-center mx-auto mb-4`}
+        className={`w-12 h-12 ${bgColor} mx-auto mb-4 flex items-center justify-center rounded-xl`}
       >
         {icon}
       </div>
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <h3 className="mb-2 font-display text-lg font-semibold text-ink">
+        {title}
+      </h3>
+      <p className="text-ink-soft">{description}</p>
     </div>
   );
 }

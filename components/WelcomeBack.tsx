@@ -31,12 +31,19 @@ export default function WelcomeBack({
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Welcome back, {capitalizeName(userName)}!
+    <div className="mx-auto max-w-4xl animate-rise">
+      <div className="mb-10 text-center">
+        <p className="mb-3 inline-block rounded-full border border-line bg-card px-4 py-1 text-xs font-semibold uppercase tracking-widest text-secondary">
+          Welcome back
+        </p>
+        <h1 className="mb-4 font-display text-4xl font-semibold text-ink sm:text-5xl">
+          Hello,{" "}
+          <span className="italic text-secondary">
+            {capitalizeName(userName)}
+          </span>
+          .
         </h1>
-        <p className="text-xl text-gray-600 mb-8">
+        <p className="mb-8 text-lg text-ink-soft">
           {notesCount === 0
             ? "Ready to create your first note?"
             : `You have ${notesCount} note${
@@ -44,26 +51,26 @@ export default function WelcomeBack({
               } waiting for you.`}
         </p>
 
-        <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
+        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           {notesCount > 0 ? (
             <>
               <Button
                 onClick={scrollToDashboard}
-                className="bg-primary hover:bg-primary/90 text-white focus:ring-primary/30"
+                className="w-full sm:w-auto rounded-full bg-primary px-6 text-white hover:bg-primary/90 focus:ring-primary/30"
               >
                 View My Notes ({notesCount})
               </Button>
               <Button
                 onClick={scrollToCreateNote}
-                className="bg-tertiary hover:bg-tertiary/90 text-gray-700 focus:ring-tertiary/30"
+                className="w-full sm:w-auto rounded-full border border-line bg-card px-6 !text-primary hover:bg-tertiary/15 focus:ring-tertiary/30"
               >
-                Create New Note
+                + Create New Note
               </Button>
             </>
           ) : (
             <Button
               onClick={scrollToDashboard}
-              className="bg-primary hover:bg-primary/90 text-white focus:ring-primary/30 text-lg px-8 py-3"
+              className="w-full sm:w-auto rounded-full bg-primary px-8 py-3 text-lg text-white hover:bg-primary/90 focus:ring-primary/30"
             >
               Get Started - Create Your First Note.
             </Button>
@@ -72,21 +79,26 @@ export default function WelcomeBack({
       </div>
 
       {/* Stats section */}
-      <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-6 text-center mb-8">
-        <div className="flex justify-center items-center space-x-8">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-gray-900">{notesCount}</div>
-            <div className="text-sm text-gray-600">Total Notes</div>
+      <div className="mb-8 overflow-hidden rounded-2xl border border-line bg-card shadow-(--shadow-card)">
+        <div className="grid grid-cols-2 divide-x divide-line">
+          <div className="px-4 py-5 text-center">
+            <div className="font-display text-3xl font-semibold text-primary">
+              {notesCount}
+            </div>
+            <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-ink-faint">
+              Total Notes
+            </div>
           </div>
-          <div className="w-px h-8 bg-gray-300"></div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-gray-900">
+          <div className="px-4 py-5 text-center">
+            <div className="font-display text-3xl font-semibold text-secondary">
               {notesCount > 0 ? Math.ceil(notesCount / 7) : 0}
             </div>
-            <div className="text-sm text-gray-600">Notes per Week</div>
+            <div className="mt-1 text-xs font-semibold uppercase tracking-wider text-ink-faint">
+              Notes per Week
+            </div>
           </div>
         </div>
-        <p className="text-gray-600 mt-4 text-sm">
+        <p className="border-t border-dashed border-line bg-paper/60 px-4 py-3 text-center text-sm text-ink-soft">
           {notesCount === 0
             ? "Start organizing your thoughts and ideas today!"
             : "Keep up the great work organizing your thoughts!"}
