@@ -3,6 +3,7 @@ import { Fraunces, Karla, DynaPuff } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { Providers } from "./providers";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 import SignOutButton from "@/components/SignoutButton";
 
 const fraunces = Fraunces({
@@ -89,6 +90,7 @@ export default function RootLayout({
           </div>
         </Providers>
         <Toaster richColors position="top-right" />
+        <Analytics />
       </body>
     </html>
   );
