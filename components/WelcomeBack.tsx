@@ -1,4 +1,3 @@
-import Button from "@/components/Button";
 import { capitalizeName } from "@/utils/capitalize";
 
 interface WelcomeBackProps {
@@ -51,29 +50,29 @@ export default function WelcomeBack({
               } waiting for you.`}
         </p>
 
-        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="flex flex-row items-center justify-center gap-3">
           {notesCount > 0 ? (
             <>
-              <Button
+              <button
                 onClick={scrollToDashboard}
-                className="w-full sm:w-auto rounded-full bg-primary px-6 text-white hover:bg-primary/90 focus:ring-primary/30"
+                className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30 sm:px-7 sm:py-3 sm:text-base"
               >
                 View My Notes ({notesCount})
-              </Button>
-              <Button
+              </button>
+              <button
                 onClick={scrollToCreateNote}
-                className="w-full sm:w-auto rounded-full border border-line bg-card px-6 !text-primary hover:bg-tertiary/15 focus:ring-tertiary/30"
+                className="rounded-full border border-line bg-card px-5 py-2.5 text-sm font-semibold text-ink transition-all hover:-translate-y-0.5 hover:border-ink-faint focus:outline-none focus:ring-2 focus:ring-tertiary/30 sm:px-7 sm:py-3 sm:text-base"
               >
-                + Create New Note
-              </Button>
+                + New Note
+              </button>
             </>
           ) : (
-            <Button
+            <button
               onClick={scrollToDashboard}
-              className="w-full sm:w-auto rounded-full bg-primary px-8 py-3 text-lg text-white hover:bg-primary/90 focus:ring-primary/30"
+              className="rounded-full bg-primary px-8 py-3 text-base font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30 sm:text-lg"
             >
-              Get Started - Create Your First Note.
-            </Button>
+              Create Your First Note
+            </button>
           )}
         </div>
       </div>

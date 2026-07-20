@@ -24,17 +24,21 @@ const InputPasswordField: React.FC<InputPasswordFieldProps> = ({
 
   return (
     <div className="w-full">
-      <label className="block font-bold text-gray-700 mb-1">{label}</label>
+      <label className="mb-1.5 block text-sm font-semibold text-ink">
+        {label}
+      </label>
       <div className="relative">
-        <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
+        <span className="absolute inset-y-0 left-3 flex items-center text-ink-faint">
           <LockClosedIcon />
         </span>
         <input
           type={showPassword ? "text" : "password"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={`pl-10 w-full p-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-primary ${
-            error ? "border-red-500" : "border-gray-300"
+          className={`w-full rounded-xl border bg-paper/50 p-3 pl-10 text-ink placeholder:text-ink-faint transition-shadow focus:outline-none focus:ring-2 ${
+            error
+              ? "border-secondary focus:ring-secondary/30"
+              : "border-line focus:border-tertiary focus:ring-tertiary/30"
           }`}
           placeholder={placeholder}
           required
@@ -42,13 +46,13 @@ const InputPasswordField: React.FC<InputPasswordFieldProps> = ({
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute inset-y-0 right-3 flex items-center text-gray-400 focus:outline-none cursor-pointer"
+          className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-ink-faint hover:text-ink focus:outline-none"
           aria-label={showPassword ? "Hide password" : "Show password"}
         >
           {showPassword ? <EyeClosedIcon /> : <EyeOpenIcon />}
         </button>
       </div>
-      {error && <p className="text-red-500 text-sm mt-1 ml-2">{error}</p>}
+      {error && <p className="mt-1 ml-2 text-sm text-secondary">{error}</p>}
     </div>
   );
 };

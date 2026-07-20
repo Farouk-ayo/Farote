@@ -1,48 +1,42 @@
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Button from "@/components/Button";
 
 export default function LandingPage() {
   const router = useRouter();
 
   return (
-    <div className="max-w-4xl mx-auto animate-rise">
+    <div className="mx-auto flex min-h-[70vh] max-w-3xl flex-col justify-center animate-rise">
       {/* Hero Section */}
-      <div className="text-center mb-14">
-        <p className="mb-4 inline-block rounded-full border border-line bg-card px-4 py-1 text-xs font-semibold uppercase tracking-widest text-secondary">
-          Notes, the warm way
-        </p>
-        <h1 className="mb-6 font-display text-4xl font-semibold text-ink sm:text-6xl">
+      <div className="text-center">
+        <h1 className="mb-5 font-display text-4xl font-semibold text-ink sm:text-6xl">
           Your thoughts deserve a{" "}
           <span className="italic text-secondary">cozy home</span>.
         </h1>
-        <p className="mx-auto mb-8 max-w-2xl text-xl text-ink-soft">
+        <p className="mx-auto mb-8 max-w-md text-base text-ink-soft sm:text-lg">
           Capture your thoughts, organize your ideas, and access them anywhere.
-          Simple, secure, and always available.
         </p>
 
-        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button
+        <div className="mb-12 flex flex-row items-center justify-center gap-3">
+          <button
             onClick={() => router.push("/register")}
-            className="w-full sm:w-auto rounded-full bg-primary px-7 text-white hover:bg-primary/90 focus:ring-primary/30"
+            className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30 sm:px-8 sm:py-3 sm:text-base"
           >
             Get Started Free
-          </Button>
-          <Button
+          </button>
+          <button
             onClick={() => router.push("/login")}
-            className="w-full sm:w-auto rounded-full border border-line bg-card px-7 !text-primary hover:bg-tertiary/15 focus:ring-tertiary/30"
+            className="rounded-full border border-line bg-card px-6 py-2.5 text-sm font-semibold text-ink transition-all hover:-translate-y-0.5 hover:border-ink-faint focus:outline-none focus:ring-2 focus:ring-tertiary/30 sm:px-8 sm:py-3 sm:text-base"
           >
             Sign In
-          </Button>
+          </button>
         </div>
       </div>
 
-      {/* Features Section */}
-      <div className="mb-14 grid gap-5 md:grid-cols-3">
-        <FeatureCard
+      {/* Features Section — compact, three across on every screen */}
+      <div className="mx-auto grid w-full max-w-2xl grid-cols-3 gap-2 sm:gap-4">
+        <FeatureItem
           icon={
             <svg
-              className="w-6 h-6 text-secondary"
+              className="h-5 w-5 text-secondary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -56,14 +50,12 @@ export default function LandingPage() {
             </svg>
           }
           title="Easy to Use"
-          description="Simple and intuitive interface for quick note-taking"
-          bgColor="bg-secondary/10"
+          description="Quick, intuitive note-taking"
         />
-
-        <FeatureCard
+        <FeatureItem
           icon={
             <svg
-              className="w-6 h-6 text-primary"
+              className="h-5 w-5 text-secondary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -77,14 +69,12 @@ export default function LandingPage() {
             </svg>
           }
           title="Secure"
-          description="Your notes are encrypted and safely stored"
-          bgColor="bg-primary/10"
+          description="Safely stored, always private"
         />
-
-        <FeatureCard
+        <FeatureItem
           icon={
             <svg
-              className="w-6 h-6 text-tertiary"
+              className="h-5 w-5 text-secondary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -97,53 +87,30 @@ export default function LandingPage() {
               />
             </svg>
           }
-          title="Anywhere Access"
-          description="Access your notes from any device, anytime"
-          bgColor="bg-tertiary/15"
+          title="Any Device"
+          description="Your notes, anywhere"
         />
-      </div>
-
-      {/* Call to Action */}
-      <div className="overflow-hidden rounded-2xl border border-line bg-card text-center shadow-(--shadow-card)">
-        <div className="h-1 w-full bg-gradient-to-r from-tertiary via-secondary to-tertiary" />
-        <div className="p-8">
-          <h2 className="mb-3 font-display text-2xl font-semibold text-ink">
-            Ready to get started?
-          </h2>
-          <p className="mb-6 text-ink-soft">
-            Join thousands of users who trust us with their notes
-          </p>
-          <Link
-            href="/register"
-            className="inline-block rounded-full bg-secondary px-6 py-3 text-white transition-colors hover:bg-secondary/85 focus:outline-none focus:ring-2 focus:ring-secondary/30"
-          >
-            Create Your Account
-          </Link>
-        </div>
       </div>
     </div>
   );
 }
 
-interface FeatureCardProps {
+interface FeatureItemProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  bgColor: string;
 }
 
-function FeatureCard({ icon, title, description, bgColor }: FeatureCardProps) {
+function FeatureItem({ icon, title, description }: FeatureItemProps) {
   return (
-    <div className="rounded-2xl border border-line bg-card p-6 text-center shadow-(--shadow-card) transition-all duration-300 hover:-translate-y-1 hover:shadow-(--shadow-card-hover)">
-      <div
-        className={`w-12 h-12 ${bgColor} mx-auto mb-4 flex items-center justify-center rounded-xl`}
-      >
+    <div className="rounded-2xl border border-line bg-card p-3 text-center sm:p-5">
+      <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-secondary/10 sm:h-11 sm:w-11">
         {icon}
       </div>
-      <h3 className="mb-2 font-display text-lg font-semibold text-ink">
-        {title}
-      </h3>
-      <p className="text-ink-soft">{description}</p>
+      <h3 className="text-xs font-bold text-ink sm:text-base">{title}</h3>
+      <p className="mt-1 hidden text-sm text-ink-soft sm:block">
+        {description}
+      </p>
     </div>
   );
 }

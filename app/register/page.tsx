@@ -55,15 +55,20 @@ export default function Register() {
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">Create an Account</h1>
+    <div className="mx-auto flex min-h-[70vh] w-full max-w-md flex-col justify-center animate-rise">
+      <h1 className="mb-2 text-center font-display text-3xl font-semibold text-ink">
+        Create an Account
+      </h1>
+      <p className="mb-6 text-center text-ink-soft">
+        Start organizing your thoughts today.
+      </p>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-md border border-primary/40"
+        className="rounded-2xl border border-line bg-card p-6 shadow-(--shadow-card)"
       >
         {error && (
-          <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">
+          <div className="mb-4 rounded-xl border border-secondary/30 bg-secondary/5 p-3 text-sm text-secondary">
             {error}
           </div>
         )}
@@ -71,7 +76,7 @@ export default function Register() {
         <div className="mb-4">
           <label
             htmlFor="name"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="mb-1.5 block text-sm font-semibold text-ink"
           >
             Name
           </label>
@@ -89,7 +94,7 @@ export default function Register() {
         <div className="mb-4">
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="mb-1.5 block text-sm font-semibold text-ink"
           >
             Email
           </label>
@@ -125,16 +130,19 @@ export default function Register() {
           <Button
             type="submit"
             isLoading={isLoading}
-            className="bg-tertiary focus:ring-primary/30"
+            className="rounded-full bg-primary hover:bg-primary/90 focus:ring-primary/30"
           >
             Sign Up
           </Button>
         </div>
       </form>
 
-      <p className="mt-4 text-center text-gray-600">
+      <p className="mt-4 text-center text-ink-soft">
         Already have an account?{" "}
-        <Link href="/login" className="text-primary hover:underline">
+        <Link
+          href="/login"
+          className="font-semibold text-secondary hover:underline"
+        >
           Sign in
         </Link>
       </p>

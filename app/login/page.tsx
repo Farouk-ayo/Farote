@@ -42,17 +42,19 @@ export default function Login() {
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <h2 className="text-2xl font-bold text-center mb-4">Sign In</h2>
-      <p className="text-center text-gray-600 mb-6">
-        Welcome back! Please enter your credentials to access your account.
+    <div className="mx-auto flex min-h-[70vh] w-full max-w-md flex-col justify-center animate-rise">
+      <h2 className="mb-2 text-center font-display text-3xl font-semibold text-ink">
+        Sign In
+      </h2>
+      <p className="mb-6 text-center text-ink-soft">
+        Welcome back! Please enter your credentials.
       </p>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-md border border-primary/40"
+        className="rounded-2xl border border-line bg-card p-6 shadow-(--shadow-card)"
       >
         {error && (
-          <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">
+          <div className="mb-4 rounded-xl border border-secondary/30 bg-secondary/5 p-3 text-sm text-secondary">
             {error}
           </div>
         )}
@@ -60,7 +62,7 @@ export default function Login() {
         <div className="mb-4">
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="mb-1.5 block text-sm font-semibold text-ink"
           >
             Email
           </label>
@@ -88,16 +90,19 @@ export default function Login() {
           <Button
             type="submit"
             isLoading={isLoading}
-            className="bg-tertiary focus:ring-primary/30"
+            className="rounded-full bg-primary hover:bg-primary/90 focus:ring-primary/30"
           >
             Sign In
           </Button>
         </div>
       </form>
 
-      <p className="mt-4 text-center text-gray-600">
+      <p className="mt-4 text-center text-ink-soft">
         Don't have an account?{" "}
-        <Link href="/register" className="text-primary hover:underline">
+        <Link
+          href="/register"
+          className="font-semibold text-secondary hover:underline"
+        >
           Sign up
         </Link>
       </p>

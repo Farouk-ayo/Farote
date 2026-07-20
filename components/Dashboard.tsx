@@ -129,19 +129,6 @@ export default function DashboardSection({
 
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Create Note Button - Only show when form is hidden and there are notes */}
-      {!shouldShowForm && notes.length > 0 && (
-        <div className="mb-8 flex justify-center">
-          <button
-            onClick={handleCreateNewNote}
-            data-create-note-trigger
-            className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-medium text-white shadow-(--shadow-card) transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-(--shadow-card-hover)"
-          >
-            <PlusIcon className="h-4 w-4" /> Create New Note
-          </button>
-        </div>
-      )}
-
       {/* Note Form Section - Animated */}
       <div
         id="note-form-section"
@@ -181,14 +168,25 @@ export default function DashboardSection({
 
       {/* Notes List Section */}
       <div>
-        <div className="mb-5 flex items-baseline justify-between gap-3">
-          <h3 className="font-display text-2xl font-semibold text-ink">
-            Your Notes
-          </h3>
-          {notes.length > 0 && (
-            <span className="rounded-full border border-line bg-card px-3 py-1 text-xs font-semibold text-ink-soft">
-              {notes.length} {notes.length === 1 ? "note" : "notes"}
-            </span>
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-baseline gap-2.5">
+            <h3 className="font-display text-2xl font-semibold text-ink">
+              Your Notes
+            </h3>
+            {notes.length > 0 && (
+              <span className="text-sm font-semibold text-ink-faint">
+                ({notes.length})
+              </span>
+            )}
+          </div>
+          {!shouldShowForm && notes.length > 0 && (
+            <button
+              onClick={handleCreateNewNote}
+              data-create-note-trigger
+              className="flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/30"
+            >
+              <PlusIcon className="h-4 w-4" /> New
+            </button>
           )}
         </div>
 
